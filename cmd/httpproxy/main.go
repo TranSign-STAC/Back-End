@@ -26,10 +26,15 @@ func run() error {
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := gw.RegisterTextToSignLangHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
-	if err != nil {
+
+	if err := gw.RegisterTextToSignLangHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts); err != nil {
 		return err
 	}
+	if err := gw.RegisterTranslationHistoryHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts); err != nil {
+		return err
+	}
+	// register handlers
+
 	fmt.Printf("Server Online on: %d\n", PORT)
 	return http.ListenAndServe(fmt.Sprintf(":%d", PORT), mux)
 }
