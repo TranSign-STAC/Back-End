@@ -7,6 +7,7 @@ import (
 	pb "transign/gen"
 )
 
+// TranslationHistoryServer has methods for service translationHistory
 type TranslationHistoryServer struct {
 	pb.UnimplementedTranslationHistoryServer
 }
