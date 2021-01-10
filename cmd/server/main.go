@@ -27,6 +27,7 @@ func main() {
 
 	pb.RegisterTextToSignLangServer(s, &controllers.TextToSignLangServer{})
 	pb.RegisterTranslationHistoryServer(s, &controllers.TranslationHistoryServer{})
+	pb.RegisterFavoriteTranslationServer(s, &controllers.FavoriteTranslationServer{})
 	// register controller functions
 
 	logrus.Info(fmt.Sprintf("Server Online on: %s\n", config.Envs["SERVER_PORT"]))
