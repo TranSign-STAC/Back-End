@@ -33,6 +33,9 @@ func run() error {
 	if err := gw.RegisterTranslationHistoryHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts); err != nil {
 		return err
 	}
+	if err := gw.RegisterFavoriteTranslationHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts); err != nil {
+		return err
+	}
 	// register handlers
 
 	fmt.Printf("Server Online on: %d\n", PORT)
