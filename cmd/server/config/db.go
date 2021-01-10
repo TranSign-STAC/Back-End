@@ -25,5 +25,6 @@ func ConnectDB() *gorm.DB {
 	}
 
 	DB.AutoMigrate(&models.Translation{})
+	DB.AutoMigrate(&models.FavoriteTranslation{})
 	return DB
 }
