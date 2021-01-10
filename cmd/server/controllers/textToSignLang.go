@@ -9,7 +9,7 @@ import (
 	pb "transign/gen"
 )
 
-// Server has methods for service textToSignLang
+// TextToSignLangServer has methods for service textToSignLang
 type TextToSignLangServer struct {
 	pb.UnimplementedTextToSignLangServer
 }
