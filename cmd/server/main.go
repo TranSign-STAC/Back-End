@@ -8,6 +8,8 @@ import (
 	"transign/cmd/server/controllers"
 	pb "transign/gen"
 
+	"github.com/grpc-ecosystem/go-grpc-middleware"
+	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
@@ -23,7 +25,11 @@ func main() {
 		panic("Failed to listen.")
 	}
 
-	s := grpc.NewServer()
+	s := grpc.NewServer(
+		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+			grpc_recovery.UnaryServerInterceptor(),
+		)),
+	)
 
 	pb.RegisterTextToSignLangServer(s, &controllers.TextToSignLangServer{})
 	pb.RegisterTranslationHistoryServer(s, &controllers.TranslationHistoryServer{})
