@@ -2,12 +2,9 @@ package controllers
 
 import (
 	"context"
-	"errors"
-	"transign/cmd/server/config"
 	"transign/cmd/server/models"
+	"transign/configs"
 	pb "transign/gen"
-
-	"gorm.io/gorm"
 )
 
 // FavoriteTranslationServer has methods for service FavoriteTranslation
@@ -19,7 +16,7 @@ type FavoriteTranslationServer struct {
 func (s *FavoriteTranslationServer) GetFavorite(context context.Context, in *pb.UUIDMessage) (*pb.GetFavoriteTranslationResponse, error) {
 	var translations []models.FavoriteTranslation
 	var requestHistory []string
-	config.DB.Where(&models.FavoriteTranslation{UUID: in.Uuid}).Find(&translations)
+	configs.DB.Where(&models.FavoriteTranslation{UUID: in.Uuid}).Find(&translations)
 	requestHistory = make([]string, len(translations))
 
 	for i, translate := range translations {
@@ -33,11 +30,13 @@ func (s *FavoriteTranslationServer) GetFavorite(context context.Context, in *pb.
 // ToggleFavorite is a function for handling toggling favorite translations
 func (s *FavoriteTranslationServer) ToggleFavorite(context context.Context, in *pb.ToggleFavoriteTranslationRequest) (*pb.GetFavoriteTranslationResponse, error) {
 	var translations models.FavoriteTranslation
-	query := config.DB.Where(&models.FavoriteTranslation{UUID: in.Uuid, Text: in.Text})
-	if err := query.First(&translations).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+	query := configs.DB.Where(&models.FavoriteTranslation{UUID: in.Uuid, Text: in.Text})
+	var count int64
+	query.Find(&translations).Count(&count)
+	if count == 0 {
 		// create one
 		translation := models.FavoriteTranslation{UUID: in.Uuid, Text: in.Text}
-		config.DB.Create(&translation)
+		configs.DB.Create(&translation)
 	} else {
 		// remove one
 		query.Delete(&translations)
