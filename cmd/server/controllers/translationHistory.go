@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"context"
-	"transign/cmd/server/config"
 	"transign/cmd/server/models"
+	"transign/configs"
 	pb "transign/gen"
 )
 
@@ -16,7 +16,7 @@ type TranslationHistoryServer struct {
 func (s *TranslationHistoryServer) GetHistory(ctx context.Context, in *pb.UUIDMessage) (*pb.TranslationHistoryResponse, error) {
 	var translations []models.Translation
 	var requestHistory []*pb.TextToSignLangRequest
-	config.DB.Where(&models.Translation{UUID: in.Uuid}).Find(&translations)
+	configs.DB.Where(&models.Translation{UUID: in.Uuid}).Find(&translations)
 	requestHistory = make([]*pb.TextToSignLangRequest, len(translations))
 
 	for i, translation := range translations {

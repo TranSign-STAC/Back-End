@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net"
 
-	"transign/cmd/server/config"
 	"transign/cmd/server/controllers"
+	"transign/configs"
 	pb "transign/gen"
 
 	"github.com/grpc-ecosystem/go-grpc-middleware"
@@ -15,10 +15,10 @@ import (
 )
 
 func main() {
-	config.ConnectDB()
+	configs.ConnectDB()
 	// connect db
 
-	conn, err := net.Listen("tcp", fmt.Sprintf(":%s", config.Envs["SERVER_PORT"]))
+	conn, err := net.Listen("tcp", fmt.Sprintf(":%s", configs.Envs["SERVER_PORT"]))
 	defer conn.Close()
 	if err != nil {
 		logrus.Fatal(err)
@@ -36,7 +36,7 @@ func main() {
 	pb.RegisterFavoriteTranslationServer(s, &controllers.FavoriteTranslationServer{})
 	// register controller functions
 
-	logrus.Info(fmt.Sprintf("Server Online on: %s\n", config.Envs["SERVER_PORT"]))
+	logrus.Info(fmt.Sprintf("Server Online on: %s\n", configs.Envs["SERVER_PORT"]))
 
 	if err := s.Serve(conn); err != nil {
 		logrus.Fatal(err)

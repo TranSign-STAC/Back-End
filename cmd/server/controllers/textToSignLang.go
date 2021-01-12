@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"transign/cmd/server/config"
 	"transign/cmd/server/models"
+	"transign/configs"
 	pb "transign/gen"
 )
 
@@ -20,7 +20,7 @@ func (s *TextToSignLangServer) Translate(ctx context.Context, in *pb.TextToSignL
 	/* todo: forward response from translation server*/
 	URL := fmt.Sprintf("api.transign.me/rendered/%s.mp4", in.Text)
 	translation := models.Translation{UUID: in.Uuid, Text: in.Text, RenderURL: URL}
-	config.DB.Create(&translation)
+	configs.DB.Create(&translation)
 	response := &pb.TextToSignLangResponse{RenderUrl: URL}
 	return response, nil
 }
