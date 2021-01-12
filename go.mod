@@ -8,6 +8,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.3-0.20201205162749-48900393c7f3
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.1.0
 	github.com/sirupsen/logrus v1.7.0
+	github.com/stretchr/testify v1.5.1
 	golang.org/x/net v0.0.0-20201224014010-6772e930b67b // indirect
 	golang.org/x/sys v0.0.0-20210110051926-789bb1bd4061 // indirect
 	golang.org/x/text v0.3.5 // indirect
