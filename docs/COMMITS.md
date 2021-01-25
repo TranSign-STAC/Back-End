@@ -1,35 +1,37 @@
-## Commit Rules
+# Semantic Commit Messages
 
-1. 기능 고칠때 -> FIX 
-```sh
-git commit -m 'FIX Navigation Issue'
+See how a minor change to your commit message style can make you a better programmer.
+
+Format: `<type>(<scope>): <subject>`
+
+`<scope>` is optional
+
+## Example
+
 ```
-
-2. 코드, 테스트, 문서 추가 -> ADD
-```sh
-git commit -m 'ADD Packages for Stack Navigation'
-```
-
-3. 리펙토링 (전면 수정) -> REFACTOR
-```sh
-git commit -m 'REFACTOR App.tsx for'
-```
-
-4. 기능 수정 -> UPDATE
-```sh
-git commit -m 'UPDATE Getting Geolocation with Redux'
+feat: add hat wobble
+^--^  ^------------^
+|     |
+|     +-> Summary in present tense.
+|
++-------> Type: chore, docs, feat, fix, refactor, style, or test.
 ```
 
-5. 성능 개선 -> IMPROVE
-```sh
-git commit -m 'IMPROVE Stable Bluetooth Connection'
-```
-6. 파일 이름 변경 -> RENAME
-```sh
-git commit -m 'RENAME model/DeepNeuralNetwork.py to model/DNN.py'
-```
+More Examples:
 
-7. 문서화 파일 -> DOCS
-```sh
-git commit -m '[DOCS] make docs/GetStart.md for getting start this project'
-```
+- `feat`: (new feature for the user, not a new feature for build script)
+- `fix`: (bug fix for the user, not a fix to a build script)
+- `docs`: (changes to the documentation)
+- `style`: (formatting, missing semi colons, etc; no production code change)
+- `refactor`: (refactoring production code, eg. renaming a variable)
+- `test`: (adding missing tests, refactoring tests; no production code change)
+- `chore`: (updating grunt tasks etc; no production code change)
+
+References:
+
+- https://www.conventionalcommits.org/
+- https://seesparkbox.com/foundry/semantic_commit_messages
+- http://karma-runner.github.io/1.0/dev/git-commit-msg.html
+
+From:
+- https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716
