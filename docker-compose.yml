@@ -6,6 +6,7 @@ volumes:
 services:
     db:
         container_name: transign_db
+        restart: always
         image: postgres
         volumes:
             - db_volume:/var/lib/postgresql/data
@@ -16,6 +17,7 @@ services:
             - POSTGRES_INITDB_ARGS=--encoding=UTF-8
     transign_backend:
         container_name: transign_was
+        restart: always
         depends_on:
             - "db"
         build:
@@ -28,5 +30,3 @@ services:
         ports:
             - "8080:8080"
             - "8000:8000"
-        command:
-            - ./server
