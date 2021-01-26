@@ -1,0 +1,32 @@
+version: "3"
+
+volumes:
+    db_volume: {}
+
+services:
+    db:
+        container_name: transign_db
+        image: postgres
+        volumes:
+            - db_volume:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=database
+            - POSTGRES_USER=transign
+            - POSTGRES_PASSWORD=transignpassword
+            - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    transign_backend:
+        container_name: transign_was
+        depends_on:
+            - "db"
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        environment:
+            - DB_HOST=transign_db
+            - DB_USERNAME=transign
+            - DB_PASSWORD=transignpassword
+        ports:
+            - "8080:8080"
+            - "8000:8000"
+        command:
+            - ./server
