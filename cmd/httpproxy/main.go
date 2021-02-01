@@ -10,14 +10,15 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 
+	"transign/configs"
 	gw "transign/gen"
 )
 
 var (
-	grpcServerEndpoint = flag.String("grpc-server-endpoint", "localhost:8000", "gRPC server endpoint")
+	grpcServerEndpoint = flag.String("grpc-server-endpoint", configs.Envs["PROXY_DESTINATION"], "gRPC server endpoint")
 )
 
-const PORT = 8080
+const PORT = 8000
 
 func run() error {
 	ctx := context.Background()
