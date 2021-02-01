@@ -8,7 +8,8 @@ func ternaryMap(value string, defaultValue string) string {
 
 // Envs has values for environment variables and the defaults for them
 var Envs = map[string]string{
-	"SERVER_PORT": ternaryMap(os.Getenv("SERVER_PORT"), "8000"),
+	"PROXY_DESTINATION": ternaryMap(os.Getenv("PROXY_DESTINATION"), "localhost:8080"),
+	"SERVER_PORT": ternaryMap(os.Getenv("SERVER_PORT"), "8080"),
 	"DB_HOST":     ternaryMap(os.Getenv("DB_HOST"), "localhost"),
 	"DB_PORT":     ternaryMap(os.Getenv("DB_PORT"), "5432"),
 	"DB_USERNAME": ternaryMap(os.Getenv("DB_USERNAME"), "postgres"),
