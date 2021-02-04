@@ -101,6 +101,7 @@ var _TextToSignLang_serviceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TranslationHistoryClient interface {
 	GetHistory(ctx context.Context, in *UUIDMessage, opts ...grpc.CallOption) (*TranslationHistoryResponse, error)
+	RemoveHistory(ctx context.Context, in *UUIDMessage, opts ...grpc.CallOption) (*TranslationHistoryResponse, error)
 }
 
 type translationHistoryClient struct {
@@ -120,11 +121,21 @@ func (c *translationHistoryClient) GetHistory(ctx context.Context, in *UUIDMessa
 	return out, nil
 }
 
+func (c *translationHistoryClient) RemoveHistory(ctx context.Context, in *UUIDMessage, opts ...grpc.CallOption) (*TranslationHistoryResponse, error) {
+	out := new(TranslationHistoryResponse)
+	err := c.cc.Invoke(ctx, "/transign.TranslationHistory/RemoveHistory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TranslationHistoryServer is the server API for TranslationHistory service.
 // All implementations must embed UnimplementedTranslationHistoryServer
 // for forward compatibility
 type TranslationHistoryServer interface {
 	GetHistory(context.Context, *UUIDMessage) (*TranslationHistoryResponse, error)
+	RemoveHistory(context.Context, *UUIDMessage) (*TranslationHistoryResponse, error)
 	mustEmbedUnimplementedTranslationHistoryServer()
 }
 
@@ -134,6 +145,9 @@ type UnimplementedTranslationHistoryServer struct {
 
 func (UnimplementedTranslationHistoryServer) GetHistory(context.Context, *UUIDMessage) (*TranslationHistoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetHistory not implemented")
+}
+func (UnimplementedTranslationHistoryServer) RemoveHistory(context.Context, *UUIDMessage) (*TranslationHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveHistory not implemented")
 }
 func (UnimplementedTranslationHistoryServer) mustEmbedUnimplementedTranslationHistoryServer() {}
 
@@ -166,6 +180,24 @@ func _TranslationHistory_GetHistory_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TranslationHistory_RemoveHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UUIDMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TranslationHistoryServer).RemoveHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/transign.TranslationHistory/RemoveHistory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TranslationHistoryServer).RemoveHistory(ctx, req.(*UUIDMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _TranslationHistory_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "transign.TranslationHistory",
 	HandlerType: (*TranslationHistoryServer)(nil),
@@ -173,6 +205,10 @@ var _TranslationHistory_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetHistory",
 			Handler:    _TranslationHistory_GetHistory_Handler,
+		},
+		{
+			MethodName: "RemoveHistory",
+			Handler:    _TranslationHistory_RemoveHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
