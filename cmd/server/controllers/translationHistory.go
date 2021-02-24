@@ -16,6 +16,13 @@ type TranslationHistoryServer struct {
 func (s *TranslationHistoryServer) GetHistory(ctx context.Context, in *pb.UUIDMessage) (*pb.TranslationHistoryResponse, error) {
 	var translations []models.Translation
 	var requestHistory []*pb.TextToSignLangRequest
+
+	if in.Uuid == "" {
+		requestHistory = make([]*pb.TextToSignLangRequest, 0)
+		response := &pb.TranslationHistoryResponse{History: requestHistory}
+		return response, nil
+	}
+
 	configs.DB.Where(&models.Translation{UUID: in.Uuid}).Find(&translations)
 	requestHistory = make([]*pb.TextToSignLangRequest, len(translations))
 
