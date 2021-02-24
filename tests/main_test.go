@@ -82,6 +82,7 @@ func TestTranslationHistory(t *testing.T) {
 		t.Fatalf("failed: %v", err)
 	}
 	assert.Equal(t, 1, len(resp.History))
+	// one history should be returned
 
 	ttslClient := pb.NewTextToSignLangClient(conn)
 	for i := 0; i < 10; i++ {
@@ -93,6 +94,14 @@ func TestTranslationHistory(t *testing.T) {
 		t.Fatalf("failed: %v", err)
 	}
 	assert.Equal(t, 11, len(resp.History))
+	// eleven history should be returned
+
+	resp, err = client.GetHistory(ctx, &pb.UUIDMessage{})
+	if err != nil {
+		t.Fatalf("failed: %v", err)
+	}
+	assert.Equal(t, 0, len(resp.History))
+	// no history should be returned if the request happens with the empty UUID
 }
 
 func TestFavoriteTranslation(t *testing.T) {
@@ -122,4 +131,11 @@ func TestFavoriteTranslation(t *testing.T) {
 	}
 	assert.Equal(t, 0, len(resp.Favorites))
 	// test unset favorite
+
+	resp, err = client.GetFavorite(ctx, &pb.UUIDMessage{})
+	if err != nil {
+		t.Fatalf("failed: %v", err)
+	}
+	assert.Equal(t, 0, len(resp.Favorites))
+	// no favorites should be returned if the request happens with the empty UUID
 }
